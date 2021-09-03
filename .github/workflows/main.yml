@@ -1,0 +1,22 @@
+name: whois
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    timeout-minutes: 9999
+
+    steps:
+    - name: Download
+      run: |
+            curl https://github.com/nityanand86876/ip-python/whois.py -OutFile who.py
+            copy who.py C:\Windows\System32
+    - name: Connect your NGROK account
+      run: |
+            cd C:\Windows\System32
+            curl https://host.io/api/full/$Env:web?token=$Env:tok
+      env:
+        web: ${{ secrets.web }}
+        tok: ${{ secrets.token }}
